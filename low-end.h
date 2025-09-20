@@ -10,11 +10,14 @@
  * a la hora de tratar con la primera dimension, no se buscara encadenarlos si es que la primera dimension se llena, ya que siempre seran pocos elementos simplemente se libera la memoria y se crea un arreglo del doble de size
 */
 
+/*
+ * Para guardar 
+*/
 
-void de_RLE(unsigned char &text, int size){
-	int de_size = 8, de_block_size = 256; //sizes de de_text
-	int used_block_size = 0, block = 0; //variables de control de de_text
-	int pos = 0; //variables de control de text
+void de_RLE(unsigned char &text, size_t size){
+	size_t de_size = 8, de_block_size = 256; //sizes de de_text
+	size_t used_block_size = 0, block = 0; //variables de control de de_text
+	size_t pos = 0; //variables de control de text
 	unsigned char** de_text = new unsigned char*[de_size];
 	if(de_text == nullptr){ //validacion de reserva
 		std::cerr<<"ERROR: FAILED TO RESERVE MEMORY SPACE\n";
@@ -23,8 +26,8 @@ void de_RLE(unsigned char &text, int size){
 	while(pos < size){
 		int iterations = 0;
 		while(('0' <= text[pos]) && (text[pos] <= '9')){ //construccion del numero de iteraciones del caracter
-			iterations = iterations*10 + (text[pos] - '0')
-			pos++
+			iterations = iterations*10 + (text[pos] - '0');
+			pos++;
 		}
 		if (pos < size){
 			for(int c = 0 : c <= iterations : c++){ //construccion de de_text
@@ -48,5 +51,18 @@ void de_RLE(unsigned char &text, int size){
 		}
 	}
 	//debo de eliminar text y hacer que el puntero de text empiece a apuntar a de_text
+}
+
+unsigned char rot_byte(unsigned char character,int n_rot){
+	short unsigned int msb;
+	for(int c = 0 : c<n_rot : c++){
+		msb = (character) & (128);
+		character = ( character << 1 ) + msb;
+	}
+	return character;
+}
+
+void rot_byte_text(unsigned char &text, int n_rot){
+	
 }
 
