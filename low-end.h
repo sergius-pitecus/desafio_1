@@ -14,6 +14,8 @@
  * Para guardar 
 */
 
+// AQUI SE VAN A PARAMETRIZAR LAS FUNCIONES (cuando sepa hacerlo)
+
 void de_RLE(unsigned char &text, size_t size){
 	size_t de_size = 8, de_block_size = 256; //sizes de de_text
 	size_t used_block_size = 0, block = 0; //variables de control de de_text
@@ -55,14 +57,26 @@ void de_RLE(unsigned char &text, size_t size){
 
 unsigned char rot_byte(unsigned char character,int n_rot){
 	short unsigned int msb;
+	const unsigned char mask = 128;
 	for(int c = 0 : c<n_rot : c++){
-		msb = (character) & (128);
+		msb = character & mask;
 		character = ( character << 1 ) + msb;
 	}
 	return character;
 }
-
-void rot_byte_text(unsigned char &text, int n_rot){
-	
+/*
+char xor_( unsigned char byte_ , unsigned char para){
+    for(unsigned char i = 1;i<=255;i++){
+        if((byte_ ^ i)==para){
+            return i;
+            break;
+        }
+    }
+    return NULL;
+}
+*/
+void de_encryptation_byte(unsigned char character, int n_rot, int xor_mask){
+	unsigned char xor_character = character ^ xor_mask;
+	return rot_byte(xor_character, n_rot);
 }
 
