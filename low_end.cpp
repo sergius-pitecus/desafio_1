@@ -8,8 +8,8 @@ unsigned char* simplify_mat( unsigned char** text, size_t size_first_dim, size_t
 			if( (block*size_second_dim + pos) < used_size ) simplified_text[block*size_second_dim + pos] = text[block][pos];
 		}
 		delete[] text[block]; //liberacion de memoria de cada bloque
-	}
-	delete[] text; //liberacion de memoria del arreglo de bloques
+	} 
+    delete[] text; //liberacion de memoria del arreglo de bloques
 	return simplified_text;
 }
 
@@ -18,16 +18,15 @@ void de_RLE(unsigned char* &text, size_t size){
 	size_t used_block_size = 0, block = 0; //variables de control de de_text
 	size_t pos = 0; //variables de control de text
 	unsigned char** de_text = new unsigned char*[de_size];
-	/*if(de_text == nullptr){ //validacion de reserva
+	if(de_text == nullptr){ //validacion de reserva
 		std::cerr<<"ERROR: FAILED TO RESERVE MEMORY SPACE\n";
 		return;
-	}*/
+    }
 	de_text[0] = new unsigned char[de_block_size];
-	/*
 	if(de_text[0] == nullptr){ //validacion de reserva
 		std::cerr<<"ERROR: FAILED TO RESERVE MEMORY SPACE\n";
 		return;
-	}*/
+	}
 	while(pos < size){
 		int iterations = 0;
 		while(('0' <= text[pos]) && (text[pos] <= '9')){ //construccion del numero de iteraciones del caracter
@@ -46,10 +45,10 @@ void de_RLE(unsigned char* &text, size_t size){
 				else if(used_block_size == de_block_size){ //crecimiento de segunda dimension
 					block++;
 					de_text[block] = new unsigned char[de_block_size];
-					/*if(de_text[block] == nullptr){
+					if(de_text[block] == nullptr){
 						std::cerr<<"ERROR: FAILED TO RESERVE MEMORY SPACE";
 						return;
-					}*/
+					}
 					used_block_size = 0;
 				}
 				de_text[block][used_block_size] = text[pos]; //asignacion de espacio dentro del arreglo
@@ -77,10 +76,7 @@ unsigned char de_encryptation_byte(unsigned char character, int n_rot, int xor_m
 	return rot_byte(xor_character, n_rot);
 }
 
-#include <fstream>
-#include <iostream>
-
-int size_text(const char* nom_texto){
+size_t size_text(const char* nom_texto){
 
     unsigned char caracter;
 
@@ -95,9 +91,7 @@ int size_text(const char* nom_texto){
     return cont;
 }
 
-
-
-unsigned char* into_text(const char* nom_texto, int tam_texto) {
+unsigned char* extract_text(const char* nom_texto, int tam_texto) {
 
     int cont2 = 0;
     char caracter;
@@ -115,9 +109,9 @@ unsigned char* into_text(const char* nom_texto, int tam_texto) {
         archivo.close();
     } else {
         delete[] dm_texto;                                 //en caso de que el archivo no abra borramos contenido y mandamos el error
-        std::cout << "por alguna razon que la ciencia desconoce el archivo" << std::endl;
+        std::cerr << "\nERROR: FILE NOT FOUND" << std::endl;
         return nullptr;
     }
-
     return dm_texto;                             // profe, no sabe lo que me frusto poder llegar hasta aqui, retornamos el puntero del arreglo
 }
+
